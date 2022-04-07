@@ -28,6 +28,8 @@ import { getContract } from 'utils';
 import { useActiveWeb3React } from 'hooks';
 import { abi as LairABI } from 'abis/DragonLair.json';
 import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json';
+import useIsAmbireWC from './useIsAmbireWC';
+import AMBIRE_WALLET_ABI from '../constants/abis/ambire-wallet.json';
 
 function useContract(
   address: string | undefined,
@@ -95,6 +97,16 @@ export function useWETHContract(
     chainId ? WETH[chainId].address : undefined,
     WETH_ABI,
     withSignerIfPossible,
+  );
+}
+
+export function useAmbireWalletContract(): Contract | null {
+  const { account } = useActiveWeb3React();
+  const isAmbireWC = useIsAmbireWC();
+  return useContract(
+    isAmbireWC ? account ?? undefined : undefined,
+    AMBIRE_WALLET_ABI,
+    true,
   );
 }
 

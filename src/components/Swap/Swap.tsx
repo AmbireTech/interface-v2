@@ -32,6 +32,7 @@ import { useTransactionFinalizer } from 'state/transactions/hooks';
 import useENSAddress from 'hooks/useENSAddress';
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback';
 import useToggledVersion, { Version } from 'hooks/useToggledVersion';
+import useIsAmbireWC from 'hooks/useIsAmbireWC';
 import {
   addMaticToMetamask,
   isSupportedNetwork,
@@ -203,7 +204,10 @@ const Swap: React.FC<{
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee);
   const isValid = !swapInputError;
 
+  const isAmbireWC = useIsAmbireWC();
+
   const showApproveFlow =
+    !isAmbireWC &&
     !swapInputError &&
     (approval === ApprovalState.NOT_APPROVED ||
       approval === ApprovalState.PENDING ||
